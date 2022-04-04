@@ -21,7 +21,6 @@ public class DatabaseConnector
         this.Password = Environment.GetEnvironmentVariable($"database_password");
         this.InitialCatalog = Environment.GetEnvironmentVariable($"database_initial_catalog");
 
-        var x = Environment.GetEnvironmentVariable($"Waffles");
         builder = new SqlConnectionStringBuilder
         {
             DataSource = DataSource,
@@ -30,7 +29,6 @@ public class DatabaseConnector
             InitialCatalog = InitialCatalog
         };
     }
-    
 
     public SqlConnection Connection()
     {
