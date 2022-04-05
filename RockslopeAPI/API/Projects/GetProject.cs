@@ -14,16 +14,16 @@ using RockslopeAPI.Models;
 
 namespace RockslopeAPI.appStart;
 
-public static class GetAppStart
+public static class GetProject
 {
-    [FunctionName("GetAppStart")]
-    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function,  "get", Route = "GetAppStart/{projectId}")] HttpRequest req, string projectId, ILogger log)
+    [FunctionName("GetProject")]
+    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function,  "get", Route = "Projects/{projectId}")] HttpRequest req, string projectId, ILogger log)
     {
         DatabaseConnector dbConnector = new DatabaseConnector();
         Project user;
         await using (SqlConnection connection = dbConnector.Connection())
         {
-            const string query = $"SELECT Id, Project_Id FROM [dbo].[projects] WHERE id LIKE @ProjectId";
+            const string query = $"SELECT * FROM projects WHERE id = @ProjectId";
 
             await using (SqlCommand cmd = new SqlCommand(query, connection))
             {
