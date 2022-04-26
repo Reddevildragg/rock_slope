@@ -37,11 +37,11 @@ public static class GetProject
 
                 if (int.TryParse(projectId, out int index))
                 {
-                    project = db.Query("Projects").Where(nameof(Project.Id), index).First<Project>();
+                    project = db.Query(Project.TableName).Where(nameof(Project.Id), index).First<Project>();
                 }
                 else
                 {
-                    project = db.Query("Projects").Where(nameof(Project.ProjectId), projectId).First<Project>();
+                    project = db.Query(Project.TableName).Where(nameof(Project.ProjectId), projectId).First<Project>();
                 }
             }
                     

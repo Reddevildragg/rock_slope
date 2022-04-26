@@ -6,8 +6,9 @@ using System.Runtime.CompilerServices;
 using SqlKata;
 
 namespace RockslopeAPI.Models;
-public class RockSlope : Dictionary<string,object>, IDynamicMetaObjectProvider
+public class RockSlope
 {
+    public const string TableName = "Rock_Slopes";
     const string IdPrefix = "slpe_";
 
     [Ignore]
@@ -19,6 +20,7 @@ public class RockSlope : Dictionary<string,object>, IDynamicMetaObjectProvider
 
     public int ProjectId { get; set; }
 
+    [Ignore]
     public Project Project { get; set; } = new Project();
 
     public string SlopeReference { get; set; }
@@ -86,10 +88,5 @@ public class RockSlope : Dictionary<string,object>, IDynamicMetaObjectProvider
     public void SetRockSlopeId(int index)
     {
         RockSlopeId = IdPrefix + index;
-    }
-
-    public DynamicMetaObject GetMetaObject(Expression parameter)
-    {
-        throw new NotImplementedException();
     }
 }

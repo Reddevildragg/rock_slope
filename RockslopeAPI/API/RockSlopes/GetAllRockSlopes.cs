@@ -30,7 +30,12 @@ public static class GetAllRockSlopes
             await using (SqlConnection connection = dbConnector.Connection())
             {
                 QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());
-                rockSlopes =db.Query("Rock_Slopes").Get<RockSlope>();
+                rockSlopes =db.Query(RockSlope.TableName).Get<RockSlope>();
+
+                foreach (RockSlope rockSlope in rockSlopes)
+                {
+                    rockSlope.Project = db.Query(Project.TableName).Where(nameof(Project.Id), rockSlope.ProjectId).First<Project>();
+                }
             }
             return new JsonResult(rockSlopes);
         }

@@ -40,9 +40,9 @@ public static class CreateRockUnit
                     newRockUnit = JsonConvert.DeserializeObject<RockUnit>(requestBody);
                 }
 
-                int rockUnitIndex = await db.Query("Rock_Units").InsertGetIdAsync<int>(newRockUnit);
+                int rockUnitIndex = await db.Query(RockUnit.TableName).InsertGetIdAsync<int>(newRockUnit);
                 newRockUnit.SetRockUnitId(rockUnitIndex);
-                await db.Query("Rock_Units").Where("Id", rockUnitIndex).UpdateAsync(newRockUnit);
+                await db.Query(RockUnit.TableName).Where("Id", rockUnitIndex).UpdateAsync(newRockUnit);
 
                 return new JsonResult(newRockUnit);
             }

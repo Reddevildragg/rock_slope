@@ -14,6 +14,8 @@ public class DatabaseConnector
     public string InitialCatalog { get; set; }
     public SqlConnectionStringBuilder builder { get; private set; }
 
+    //TODO: add connectionstring fallback as well.
+    
     public DatabaseConnector()
     {
         this.DataSource = Environment.GetEnvironmentVariable($"database_source");

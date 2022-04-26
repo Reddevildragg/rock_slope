@@ -37,12 +37,15 @@ public static class GetRockUnit
 
                 if (int.TryParse(rockUnitId, out int index))
                 {
-                    rockUnit = db.Query("Rock_Units").Where(nameof(RockUnit.Id), index).First<RockUnit>();
+                    rockUnit = db.Query(RockUnit.TableName).Where(nameof(RockUnit.Id), index).First<RockUnit>();
                 }
                 else
                 {
-                    rockUnit = db.Query("Rock_Units").Where(nameof(RockUnit.RockUnitId), rockUnitId).First<RockUnit>();
+                    rockUnit = db.Query(RockUnit.TableName).Where(nameof(RockUnit.RockUnitId), rockUnitId).First<RockUnit>();
                 }
+                
+                rockUnit.RockSlope = db.Query(RockSlope.TableName).Where(nameof(RockSlope.Id), rockUnit.RockSlopeId).First<RockSlope>();
+
             }
                     
             return new JsonResult(rockUnit);

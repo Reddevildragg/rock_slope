@@ -29,7 +29,7 @@ public static class GetAllProjects
             await using (SqlConnection connection = new DatabaseConnector().Connection())
             {
                 QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());
-                projects =db.Query("Projects").Get<Project>();
+                projects =db.Query(Project.TableName).Get<Project>();
             }
             return new JsonResult(projects);
         }

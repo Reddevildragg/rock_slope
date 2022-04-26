@@ -7,8 +7,10 @@ using SqlKata;
 
 namespace RockslopeAPI.Models;
 
+
 public class Project
 {
+    public const string TableName = "Projects";
     const string IdPrefix = "proj_";
     
     [Ignore]

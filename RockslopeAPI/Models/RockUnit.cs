@@ -5,6 +5,7 @@ namespace RockslopeAPI.Models;
 
 public class RockUnit
 {
+    public const string TableName = "Rock_Units";
     const string IdPrefix = "unit_";
 
     [Ignore]
@@ -13,6 +14,8 @@ public class RockUnit
     public string RockUnitId { get; set; }
 
     public int RockSlopeId { get; set; }
+    [Ignore]
+    public RockSlope RockSlope { get; set; } = new RockSlope();
 
     public string StructureReference { get; set; }
 

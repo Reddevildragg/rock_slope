@@ -40,10 +40,10 @@ public static class CreateRockSlope
                     newRockSlope = JsonConvert.DeserializeObject<RockSlope>(requestBody);
                 }
 
-                int rockSlopeIndex = await db.Query("Rock_Slopes").InsertGetIdAsync<int>(newRockSlope);
+                int rockSlopeIndex = await db.Query(RockSlope.TableName).InsertGetIdAsync<int>(newRockSlope);
                 newRockSlope.SetRockSlopeId(rockSlopeIndex);
                 
-                await db.Query("Rock_Slopes").Where("Id", rockSlopeIndex).UpdateAsync(newRockSlope);
+                await db.Query(RockSlope.TableName).Where("Id", rockSlopeIndex).UpdateAsync(newRockSlope);
 
                 return new JsonResult(newRockSlope);
             }

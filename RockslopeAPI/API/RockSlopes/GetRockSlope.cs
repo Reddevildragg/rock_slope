@@ -36,17 +36,14 @@ public static class GetRockSlope
 
                 if (int.TryParse(rockSlopeId, out int index))
                 { 
-                    rockSlope = db.Query("Rock_Slopes").Where("Rock_Slopes.Id", index).First<RockSlope>();
-                    
-                    RockSlope rs = db.Query("Rock_Slopes").Where("Rock_Slopes.Id", index).Include("Project",db.Query("Projects")).First();
-
+                    rockSlope = db.Query(RockSlope.TableName).Where(nameof(RockSlope.Id), index).First<RockSlope>();
                 }
                 else
                 {
-                    rockSlope = db.Query("Rock_Slopes").Where("Rock_Slopes.Id", rockSlopeId).First<RockSlope>();
+                    rockSlope = db.Query(RockSlope.TableName).Where(nameof(RockSlope.RockSlopeId), rockSlopeId).First<RockSlope>();
                 }
 
-                rockSlope.Project = db.Query("Projects").Where(nameof(Project.Id), rockSlope.ProjectId).First<Project>();
+                rockSlope.Project = db.Query(Project.TableName).Where(nameof(Project.Id), rockSlope.ProjectId).First<Project>();
             }
                     
             return new JsonResult(rockSlope);
