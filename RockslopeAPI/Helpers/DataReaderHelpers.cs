@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace RockslopeAPI.Helpers;
 
-public static class ReaderToObject
+public static class DataReaderHelpers
 {
     public static T DataReaderMapToItem<T>(this IDataReader dr)
     {
@@ -37,7 +37,6 @@ public static class ReaderToObject
     {
         List<T> list = new List<T>();
         T obj = default(T);
-        
         
         while (dr.Read())
         {

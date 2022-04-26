@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -11,28 +14,48 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RockslopeAPI.Helpers;
 using RockslopeAPI.Models;
+using SqlKata;
+using SqlKata.Compilers;
+using SqlKata.Execution;
+using SqlKata.Extensions;
 
-namespace RockslopeAPI.appStart;
+
+namespace RockslopeAPI.Projects;
 
 public static class GetProject
 {
     [FunctionName("GetProject")]
     public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function,  "get", Route = "Projects/{projectId}")] HttpRequest req, string projectId, ILogger log)
     {
-        DatabaseConnector dbConnector = new DatabaseConnector();
-        Project user;
-        await using (SqlConnection connection = dbConnector.Connection())
-        {
-            const string query = $"SELECT * FROM projects WHERE id = @ProjectId";
+        Project project = null;
 
-            await using (SqlCommand cmd = new SqlCommand(query, connection))
+        try
+        {
+            await using (SqlConnection connection =  new DatabaseConnector().Connection())
             {
-                cmd.Parameters.AddWithValue("@ProjectId", projectId);
-                connection.Open();
-                SqlDataReader reader = await cmd.ExecuteReaderAsync();
-                user = reader.DataReaderMapToItem<Project>();
+                QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());
+
+                if (int.TryParse(projectId, out int index))
+                {
+                    project = db.Query("Projects").Where(nameof(Project.Id), index).First<Project>();
+                }
+                else
+                {
+                    project = db.Query("Projects").Where(nameof(Project.ProjectId), projectId).First<Project>();
+                }
             }
+                    
+            return new JsonResult(project);
         }
-        return new JsonResult(user);
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            if (e.GetType() == typeof(InvalidOperationException))
+            {
+                return new NotFoundResult();
+            }
+
+            return new InternalServerErrorResult();
+        }
     }
 }
