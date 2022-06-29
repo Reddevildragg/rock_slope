@@ -2,7 +2,9 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using Aliencube.AzureFunctions.Extensions.OpenApi.Core.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -21,6 +23,9 @@ namespace RockslopeAPI.RockUnits;
 public static class CreateRockUnit
 {
     [FunctionName("CreateRockUnit")]
+    [OpenApiOperation(Description = "Create a Rock Unit within the database")]
+    [OpenApiRequestBody("application/json", typeof(RockUnit))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(RockUnit))]
     public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "RockUnits")] HttpRequest req, ILogger log)
     {
         try

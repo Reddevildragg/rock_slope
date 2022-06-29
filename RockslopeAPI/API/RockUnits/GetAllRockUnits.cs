@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Aliencube.AzureFunctions.Extensions.OpenApi.Core.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -21,6 +23,8 @@ namespace RockslopeAPI.RockUnits;
 public static class GetAllRockUnits
 {
     [FunctionName("GetAllRockUnits")]
+    [OpenApiOperation(Description = "Retrieve all Rock Units")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(List<RockUnit>))]
     public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "RockUnits")] HttpRequest req, ILogger log)
     {
         try

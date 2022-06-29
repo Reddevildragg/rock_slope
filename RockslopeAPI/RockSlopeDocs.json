@@ -1,0 +1,565 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Rock Slope API",
+    "description": "A sample API that runs on Azure Functions either 1.x or 2.x using Open API specification.",
+    "termsOfService": "https://github.com/aliencube/AzureFunctions.Extensions",
+    "contact": {
+      "name": "Aliencube Community",
+      "url": "https://github.com/aliencube/AzureFunctions.Extensions/issues",
+      "email": "no-reply@aliencube.org"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7071/api"
+    },
+    {
+      "url": "https://rockslope.azurewebsites.net/api"
+    }
+  ],
+  "paths": {
+    "/RockUnits": {
+      "post": {
+        "description": "Create a Rock Unit within the database",
+        "operationId": "CreateRockUnit_Post",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rockUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payload of RockUnit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rockUnit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve all Rock Units",
+        "operationId": "GetAllRockUnits_Get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of RockUnit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/rockUnit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/RockUnits/{rockUnitId}": {
+      "get": {
+        "description": "Retrieve the rock Unit information for a rock Unit Id",
+        "operationId": "GetRockUnit_Get",
+        "parameters": [
+          {
+            "name": "rockUnitId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of RockUnit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rockUnit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/RockSlopes": {
+      "post": {
+        "description": "Create a Rockslope within the database",
+        "operationId": "CreateRockSlope_Post",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rockSlope"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payload of RockSlope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rockSlope"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve all Rockslopes",
+        "operationId": "GetAllRockSlopes_Get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of RockSlope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/rockSlope"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/RockSlopes/{rockSlopeId}": {
+      "get": {
+        "description": "Retrieve the rock slope information for a rock slope Id",
+        "operationId": "GetRockSlope_Get",
+        "parameters": [
+          {
+            "name": "rockSlopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of RockSlope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rockSlope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Projects": {
+      "post": {
+        "description": "Create a project within the database",
+        "operationId": "CreateProject_Post",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payload of Project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/project"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Retrieve all projects",
+        "operationId": "GetAllProjects_Get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of Project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/project"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Projects/{projectId}": {
+      "get": {
+        "description": "Retrieve the project information for a project Id",
+        "operationId": "GetProject_Get",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/project"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "siteLocation": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "rockSlope": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rockSlopeId": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "project": {
+            "$ref": "#/components/schemas/project"
+          },
+          "slopeReference": {
+            "type": "string"
+          },
+          "startChainage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endChainage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "elevationToa": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "faceHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "faceAngle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "faceAzimuth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vegetation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "benchDetails": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roughnessProfile": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "toeDetails": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "infrastructureToe": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "infrastructureCrest": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "upperFace": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "rockUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rockUnitId": {
+            "type": "string"
+          },
+          "rockSlopeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rockSlope": {
+            "$ref": "#/components/schemas/rockSlope"
+          },
+          "structureReference": {
+            "type": "string"
+          },
+          "rockUnitRef": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "string"
+          },
+          "thickness": {
+            "type": "string"
+          },
+          "spacing": {
+            "type": "string"
+          },
+          "term": {
+            "type": "string"
+          },
+          "lightness": {
+            "type": "string"
+          },
+          "chroma": {
+            "type": "string"
+          },
+          "hue": {
+            "type": "string"
+          },
+          "texture": {
+            "type": "string"
+          },
+          "grainSize": {
+            "type": "string"
+          },
+          "rockName": {
+            "type": "string"
+          },
+          "minorConstituents": {
+            "type": "string"
+          },
+          "geologicalFormation": {
+            "type": "string"
+          },
+          "weatheringDescription": {
+            "type": "string"
+          },
+          "additionalNotes": {
+            "type": "string"
+          },
+          "weatherGrades": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "updatedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "authKey": {
+        "type": "apiKey",
+        "name": "x-functions-key",
+        "in": "header"
+      }
+    }
+  }
+}

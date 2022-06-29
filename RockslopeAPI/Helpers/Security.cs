@@ -12,7 +12,9 @@ public class Security
     public static string Encrypt(string toEncrypt)
     {
         byte[] salt = new byte[saltLength];
+#pragma warning disable SYSLIB0023
         new RNGCryptoServiceProvider().GetBytes(salt);
+#pragma warning restore SYSLIB0023
 
         Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(toEncrypt, salt, iterations);
 

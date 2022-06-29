@@ -25,9 +25,8 @@ public static class CreateProject
 {
     //https://devkimchi.com/2019/02/02/introducing-swagger-ui-on-azure-functions/
     [FunctionName("CreateProject")]
-    [OpenApiOperation("list", "sample")]
-    [OpenApiParameter("name", In = ParameterLocation.Query, Required = true,Type = typeof(string))]
-    [OpenApiParameter("limit", In = ParameterLocation.Query, Required = false, Type = typeof(int))]
+    [OpenApiOperation(Description = "Create a project within the database")]
+    [OpenApiRequestBody("application/json", typeof(Project))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(Project))]
     public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "Projects")] HttpRequest req, ILogger log)
     {

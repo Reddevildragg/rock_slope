@@ -19,7 +19,7 @@ namespace RockslopeAPI.FileTransfer
 {
     public static class UploadFile
     {
-        [FunctionName("FileUploadHttpTrigger")]
+        /*[FunctionName("FileUploadHttpTrigger")]
         public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "files")] HttpRequestMessage req,
                                                          ILogger logger)
         {
@@ -61,12 +61,10 @@ namespace RockslopeAPI.FileTransfer
             }
 
             return new OkObjectResult(new { name = blobName });
-            */
+            #1#
 
             return new OkResult();
-
-
-        }
-
+            
+        }*/
     }
 }
