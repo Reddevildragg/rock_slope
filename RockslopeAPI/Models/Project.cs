@@ -8,7 +8,7 @@ using SqlKata;
 namespace RockslopeAPI.Models;
 
 
-public class Project
+public class Project : BaseModel
 {
     public const string TableName = "Projects";
     const string IdPrefix = "proj_";
@@ -23,16 +23,7 @@ public class Project
     public string Description { get; set; }= "";
     
     public string SiteLocation { get; set; }= "";
-
-    public string CreatedBy { get; set; }= "";
-    
-    public string UpdatedBy { get; set; }= "";
-    
-    public DateTime CreatedAt { get; set; } = new DateTime(2000,1,1,0,0,0);
-    
-    public DateTime UpdatedAt { get; set; } = new DateTime(2000,1,1,0,0,0);
-
-    public void SetProjectId(int index)
+    public override void SetId(int index)
     {
         ProjectId = IdPrefix + index;
     }

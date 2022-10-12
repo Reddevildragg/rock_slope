@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using SqlKata;
 
 namespace RockslopeAPI.Models;
-public class RockSlope
+public class RockSlope : BaseModel
 {
     public const string TableName = "Rock_Slopes";
     const string IdPrefix = "slpe_";
@@ -72,20 +72,8 @@ public class RockSlope
 
 
     public int UpperFace { get; set; }
-
-
-    public string CreatedBy { get; set; }
-
-
-    public string UpdatedBy { get; set; }
-
-
-    public DateTime? CreatedAt { get; set; }= new DateTime(2000,1,1,0,0,0);
-
-
-    public DateTime? UpdatedAt { get; set; }= new DateTime(2000,1,1,0,0,0);
-
-    public void SetRockSlopeId(int index)
+    
+    public override void SetId(int index)
     {
         RockSlopeId = IdPrefix + index;
     }

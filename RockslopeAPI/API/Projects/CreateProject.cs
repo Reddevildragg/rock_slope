@@ -47,9 +47,16 @@ public static class CreateProject
                     newProject = JsonConvert.DeserializeObject<Project>(requestBody);
                 }
 
-                int projectIndex = await db.Query(Project.TableName).InsertGetIdAsync<int>(newProject);
-                newProject.SetProjectId(projectIndex);
-                await db.Query(Project.TableName).Where(nameof(Project.Id), projectIndex).UpdateAsync(newProject);
+                if (newProject.Id == null)
+                {
+                    int projectIndex = await db.Query(Project.TableName).InsertGetIdAsync<int>(newProject);
+                    newProject.SetId(projectIndex);
+                    await db.Query(Project.TableName).Where(nameof(Project.Id), projectIndex).UpdateAsync(newProject);
+                }
+                else
+                {
+                    await db.Query(Project.TableName).Where(nameof(Project.Id), newProject.Id).UpdateAsync(newProject);
+                }
 
                 return new JsonResult(newProject);
             }

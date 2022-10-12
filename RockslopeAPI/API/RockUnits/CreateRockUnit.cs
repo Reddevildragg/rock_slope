@@ -44,11 +44,18 @@ public static class CreateRockUnit
                     string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                     newRockUnit = JsonConvert.DeserializeObject<RockUnit>(requestBody);
                 }
-
-                int rockUnitIndex = await db.Query(RockUnit.TableName).InsertGetIdAsync<int>(newRockUnit);
-                newRockUnit.SetRockUnitId(rockUnitIndex);
-                await db.Query(RockUnit.TableName).Where("Id", rockUnitIndex).UpdateAsync(newRockUnit);
-
+                
+                if (newRockUnit.Id == null)
+                {
+                    int rockUnitIndex = await db.Query(RockUnit.TableName).InsertGetIdAsync<int>(newRockUnit);
+                    newRockUnit.SetId(rockUnitIndex);
+                    await db.Query(RockUnit.TableName).Where("Id", rockUnitIndex).UpdateAsync(newRockUnit);
+                }
+                else
+                {
+                    await db.Query(RockUnit.TableName).Where("Id", newRockUnit.Id).UpdateAsync(newRockUnit);
+                }
+                
                 return new JsonResult(newRockUnit);
             }
         }

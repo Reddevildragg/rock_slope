@@ -45,11 +45,18 @@ public static class CreateRockSlope
                     newRockSlope = JsonConvert.DeserializeObject<RockSlope>(requestBody);
                 }
 
-                int rockSlopeIndex = await db.Query(RockSlope.TableName).InsertGetIdAsync<int>(newRockSlope);
-                newRockSlope.SetRockSlopeId(rockSlopeIndex);
-                
-                await db.Query(RockSlope.TableName).Where("Id", rockSlopeIndex).UpdateAsync(newRockSlope);
+                if (newRockSlope.Id == null)
+                {
+                    int rockSlopeIndex = await db.Query(RockSlope.TableName).InsertGetIdAsync<int>(newRockSlope);
+                    newRockSlope.SetId(rockSlopeIndex);
+                    await db.Query(RockSlope.TableName).Where("Id", rockSlopeIndex).UpdateAsync(newRockSlope);
 
+                }
+                else
+                {
+                    await db.Query(RockSlope.TableName).Where("Id", newRockSlope.Id).UpdateAsync(newRockSlope);
+                }
+                
                 return new JsonResult(newRockSlope);
             }
         }

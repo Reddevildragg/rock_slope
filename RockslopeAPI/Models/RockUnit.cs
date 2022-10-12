@@ -3,7 +3,7 @@ using SqlKata;
 
 namespace RockslopeAPI.Models;
 
-public class RockUnit
+public class RockUnit : BaseModel
 {
     public const string TableName = "Rock_Units";
     const string IdPrefix = "unit_";
@@ -14,6 +14,7 @@ public class RockUnit
     public string RockUnitId { get; set; }
 
     public int RockSlopeId { get; set; }
+    
     [Ignore]
     public RockSlope RockSlope { get; set; } = new RockSlope();
 
@@ -50,16 +51,8 @@ public class RockUnit
     public string AdditionalNotes { get; set; }
 
     public string WeatherGrades { get; set; }
-
-    public string CreatedBy { get; set; }
-
-    public string UpdatedBy { get; set; }
-
-    public DateTime? CreatedAt { get; set; }= new DateTime(2000,1,1,0,0,0);
-
-    public DateTime? UpdatedAt { get; set; }= new DateTime(2000,1,1,0,0,0);
-
-    public void SetRockUnitId(int index)
+    
+    public override void SetId(int index)
     {
         RockUnitId = IdPrefix + index;
     }
