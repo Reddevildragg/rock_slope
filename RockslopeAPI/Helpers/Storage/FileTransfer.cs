@@ -12,6 +12,11 @@ namespace RockslopeAPI.Helpers;
 
 public class FileTransfer
 {
+    public class DownloadFileData
+    {
+        public byte[] bytes;
+        public string fileContentType;
+    }
     public static async Task<string> UploadFile(IFormFile fileInfo, ILogger logger)
     {
         AzureStorageBlobOptionsTokenGenerator azureStorageBlobOptionsTokenGenerator = new AzureStorageBlobOptionsTokenGenerator();
@@ -42,5 +47,29 @@ public class FileTransfer
         }
 
         return blobName;
+    }
+
+    public static async Task<DownloadFileData> DownloadFile(string fileName, ILogger logger)
+    {
+        AzureStorageBlobOptionsTokenGenerator azureStorageBlobOptionsTokenGenerator = new AzureStorageBlobOptionsTokenGenerator();
+            
+        logger.LogInformation($"trigger function processed a request.");
+        string sasToken = azureStorageBlobOptionsTokenGenerator.GenerateSasToken(azureStorageBlobOptionsTokenGenerator.FilePath);
+
+        StorageCredentials storageCredentials = new StorageCredentials(sasToken);
+
+        CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(storageCredentials, azureStorageBlobOptionsTokenGenerator.AccountName, null, true);
+
+        CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+
+        CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(azureStorageBlobOptionsTokenGenerator.FilePath);
+
+        CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+
+        MemoryStream ms = new MemoryStream();
+
+        await cloudBlockBlob.DownloadToStreamAsync(ms);
+
+        return new DownloadFileData() { bytes = ms.ToArray(), fileContentType = cloudBlockBlob.Properties.ContentType };
     }
 }
