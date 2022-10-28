@@ -28,7 +28,7 @@ namespace RockslopeAPI.FileTransfer
         [FunctionName("GetAssetFiles")]
         [OpenApiOperation(Description = "Get all download ids for files associated with an asset")]
         [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(AssetData))]
-        public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "files/{assetId}")] HttpRequest req,string assetId,
+        public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "files/{AssociatedItem}")] HttpRequest req,string AssociatedItem,
                                                          ILogger logger)
         {
             try
@@ -37,7 +37,7 @@ namespace RockslopeAPI.FileTransfer
                 await using (SqlConnection connection = new DatabaseConnector().Connection())
                 {
                     QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());
-                    assets = db.Query("assets").Where(nameof(AssetData.AssetId), assetId).Get<AssetData>();
+                    assets = db.Query("assets").Where(nameof(AssetData.AssociatedItem), AssociatedItem).Get<AssetData>();
                 }
                 return new JsonResult(assets);
             }
