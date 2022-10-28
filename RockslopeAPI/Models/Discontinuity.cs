@@ -8,8 +8,7 @@ public class Discontinuity : BaseModel
     public const string TableName = "discontinuities";
     const string IdPrefix = "disc_";
     
-    [Ignore]
-    public int? Id { get; set; }
+
 
     public string DiscId { get; set; } = "";
 

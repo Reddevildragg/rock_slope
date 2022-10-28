@@ -10,11 +10,7 @@ public class RockSlope : BaseModel
 {
     public const string TableName = "Rock_Slopes";
     const string IdPrefix = "slpe_";
-
-    [Ignore]
-    public int? Id { get; set; }
-
-
+    
     public string RockSlopeId { get; set; }
 
 

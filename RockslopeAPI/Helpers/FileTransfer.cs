@@ -1,32 +1,23 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
-using Aliencube.AzureFunctions.Extensions.OpenApi.Core.Attributes;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
-using RockslopeAPI.Helpers;
 
-namespace RockslopeAPI.FileTransfer;
+namespace RockslopeAPI.Helpers;
 
-public static class DownloadFile
+public class FileTransfer
 {
-    
-    [FunctionName("FileDownloadHttpTrigger")]
-    [OpenApiOperation(Description = "Download file from its guid")]
-    public static async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", Route = "files/download/{fileName}")] HttpRequest req, string fileName, ILogger logger)
+    public static async Task<string> UploadFile(IFormFile fileInfo, ILogger logger)
     {
         AzureStorageBlobOptionsTokenGenerator azureStorageBlobOptionsTokenGenerator = new AzureStorageBlobOptionsTokenGenerator();
-            
-        logger.LogInformation($"trigger function processed a request.");
+
+        logger.LogInformation(JsonConvert.SerializeObject(fileInfo, Formatting.Indented));
+
         string sasToken = azureStorageBlobOptionsTokenGenerator.GenerateSasToken(azureStorageBlobOptionsTokenGenerator.FilePath);
 
         StorageCredentials storageCredentials = new StorageCredentials(sasToken);
@@ -37,13 +28,19 @@ public static class DownloadFile
 
         CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(azureStorageBlobOptionsTokenGenerator.FilePath);
 
-        CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+        string blobName = $"{Guid.NewGuid()}{Path.GetExtension(fileInfo.FileName)}";
 
-        MemoryStream ms = new MemoryStream();
+        blobName = blobName.Replace("\"", "");
 
-        await cloudBlockBlob.DownloadToStreamAsync(ms);
+        CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(blobName);
 
-        return new FileContentResult(ms.ToArray(), cloudBlockBlob.Properties.ContentType);
+        cloudBlockBlob.Properties.ContentType = fileInfo.ContentType;
+
+        await using (Stream fileStream = fileInfo.OpenReadStream())
+        {
+            await cloudBlockBlob.UploadFromStreamAsync(fileStream);
+        }
+
+        return blobName;
     }
-
 }

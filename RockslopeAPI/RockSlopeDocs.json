@@ -13,7 +13,7 @@
       "name": "MIT",
       "url": "http://opensource.org/licenses/MIT"
     },
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "host": "localhost:7071",
   "basePath": "/api",
@@ -21,6 +21,68 @@
     "http"
   ],
   "paths": {
+    "/files/download/{fileName}": {
+      "get": {
+        "description": "Download file from its guid",
+        "operationId": "FileDownloadHttpTrigger_Get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "type": "string"
+          }
+        ],
+        "responses": { }
+      }
+    },
+    "/files/{assetId}": {
+      "get": {
+        "description": "Get all download ids for files associated with an asset",
+        "operationId": "GetAssetFiles_Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of AssetData",
+            "schema": {
+              "$ref": "#/definitions/assetData"
+            }
+          }
+        }
+      }
+    },
+    "/files/upload": {
+      "post": {
+        "description": "Upload file to storage and return a unique GUID for the file",
+        "operationId": "FileUploadHttpTrigger_Post",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "code",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of AssetData",
+            "schema": {
+              "$ref": "#/definitions/assetData"
+            }
+          }
+        }
+      }
+    },
     "/RockUnits": {
       "post": {
         "description": "Create a Rock Unit within the database",
@@ -382,13 +444,38 @@
     }
   },
   "definitions": {
-    "discontinuity": {
+    "assetData": {
       "type": "object",
       "properties": {
+        "assetId": {
+          "type": "string"
+        },
+        "associatedItem": {
+          "type": "string"
+        },
         "id": {
           "format": "int32",
           "type": "integer"
         },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "updatedAt": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "discontinuity": {
+      "type": "object",
+      "properties": {
         "discId": {
           "type": "string"
         },
@@ -444,6 +531,10 @@
         "structureReference": {
           "type": "string"
         },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
         "createdBy": {
           "type": "string"
         },
@@ -463,10 +554,6 @@
     "project": {
       "type": "object",
       "properties": {
-        "id": {
-          "format": "int32",
-          "type": "integer"
-        },
         "projectId": {
           "type": "string"
         },
@@ -478,6 +565,10 @@
         },
         "siteLocation": {
           "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
         },
         "createdBy": {
           "type": "string"
@@ -498,10 +589,6 @@
     "rockSlope": {
       "type": "object",
       "properties": {
-        "id": {
-          "format": "int32",
-          "type": "integer"
-        },
         "rockSlopeId": {
           "type": "string"
         },
@@ -579,6 +666,10 @@
           "format": "int32",
           "type": "integer"
         },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
         "createdBy": {
           "type": "string"
         },
@@ -598,10 +689,6 @@
     "rockUnit": {
       "type": "object",
       "properties": {
-        "id": {
-          "format": "int32",
-          "type": "integer"
-        },
         "rockUnitId": {
           "type": "string"
         },
@@ -662,6 +749,10 @@
         },
         "weatherGrades": {
           "type": "string"
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
         },
         "createdBy": {
           "type": "string"

@@ -14,9 +14,15 @@ namespace RockslopeAPI.Helpers
 
         public AzureStorageBlobOptionsTokenGenerator()
         {
-            AccountName = Environment.GetEnvironmentVariable($"AzureStorageBlobOptions:AccountName");
-            ConnectionString = Environment.GetEnvironmentVariable($"AzureStorageBlobOptions:ConnectionString");
-            FilePath = Environment.GetEnvironmentVariable($"AzureStorageBlobOptions:FilePath");
+            this.AccountName =
+                Environment.GetEnvironmentVariable(
+                    $"{nameof(AzureStorageBlobOptionsTokenGenerator)}:AccountName");
+            this.ConnectionString =
+                Environment.GetEnvironmentVariable(
+                    $"{nameof(AzureStorageBlobOptionsTokenGenerator)}:ConnectionString");
+            this.FilePath =
+                Environment.GetEnvironmentVariable(
+                    $"{nameof(AzureStorageBlobOptionsTokenGenerator)}:FilePath");
         }
         
         public string GenerateSasToken(string containerName)

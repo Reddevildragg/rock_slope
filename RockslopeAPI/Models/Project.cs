@@ -13,9 +13,6 @@ public class Project : BaseModel
     public const string TableName = "Projects";
     const string IdPrefix = "proj_";
     
-    [Ignore]
-    public int? Id { get; set; }
-    
     public string ProjectId { get; set; } = "";
 
     public string ProjectName { get; set; }= "";

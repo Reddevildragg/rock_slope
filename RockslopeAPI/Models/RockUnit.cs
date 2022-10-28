@@ -7,10 +7,7 @@ public class RockUnit : BaseModel
 {
     public const string TableName = "Rock_Units";
     const string IdPrefix = "unit_";
-
-    [Ignore]
-    public int? Id { get; set; }
-
+    
     public string RockUnitId { get; set; }
 
     public int RockSlopeId { get; set; }
