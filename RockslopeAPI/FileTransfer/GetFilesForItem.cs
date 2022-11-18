@@ -34,6 +34,11 @@ namespace RockslopeAPI.FileTransfer
             try
             {
                 IEnumerable<AssetData> assets;
+                if (!DataHelpers.ValidateAsset(AssociatedItem))
+                {
+                    return new BadRequestObjectResult("Unable to find Item in database");
+                }
+                
                 await using (SqlConnection connection = new DatabaseConnector().Connection())
                 {
                     QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());

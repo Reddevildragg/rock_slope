@@ -25,16 +25,6 @@ namespace RockslopeAPI.FileTransfer
         public string ItemId { get; set; }
     }
     
-    class AssetData : BaseModel
-    {
-        public string AssetId { get; set; } = "";
-        public string AssociatedItem { get; set; } = "";
-        public override void SetId(int index)
-        {
-            //ignore
-        }
-    }
-    
     public static class UploadFile
     {
         [FunctionName("FileUploadHttpTrigger")]
@@ -47,6 +37,12 @@ namespace RockslopeAPI.FileTransfer
             
             IFormCollection x = await req.ReadFormAsync();
             IFormFile fileInfo = x.Files[0];
+            UploadData data = x.ToClass<UploadData>();
+
+            if (!DataHelpers.ValidateAsset(data.ItemId))
+            {
+                return new BadRequestObjectResult("Unable to find Item in database");
+            }
             
             string blobName = await Helpers.FileTransfer.UploadFile(fileInfo, logger);
             
@@ -54,12 +50,11 @@ namespace RockslopeAPI.FileTransfer
             await using (SqlConnection connection = new DatabaseConnector().Connection())
             {
                 QueryFactory db = new QueryFactory(connection, new SqlServerCompiler());
-                UploadData data = x.ToClass<UploadData>();
 
                 ad.AssetId = blobName;
                 ad.AssociatedItem =  data.ItemId;
                 
-                int id = await db.Query("assets").InsertGetIdAsync<int>(ad);
+                int id = await db.Query(AssetData.TableName).InsertGetIdAsync<int>(ad);
                 ad.SetId(id);
                 await db.Query("assets").Where("Id", id).UpdateAsync(ad);
             }

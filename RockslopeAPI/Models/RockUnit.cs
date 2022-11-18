@@ -6,7 +6,7 @@ namespace RockslopeAPI.Models;
 public class RockUnit : BaseModel
 {
     public const string TableName = "Rock_Units";
-    const string IdPrefix = "unit_";
+    internal const string IdPrefix = "unit_";
     
     public string RockUnitId { get; set; }
 

@@ -9,7 +9,7 @@ namespace RockslopeAPI.Models;
 public class RockSlope : BaseModel
 {
     public const string TableName = "Rock_Slopes";
-    const string IdPrefix = "slpe_";
+    internal const string IdPrefix = "slpe_";
     
     public string RockSlopeId { get; set; }
 

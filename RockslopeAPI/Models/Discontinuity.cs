@@ -6,7 +6,7 @@ namespace RockslopeAPI.Models;
 public class Discontinuity : BaseModel
 {
     public const string TableName = "discontinuities";
-    const string IdPrefix = "disc_";
+    internal const string IdPrefix = "disc_";
     
 
 
