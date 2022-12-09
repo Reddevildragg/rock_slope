@@ -9,7 +9,6 @@ public class Discontinuity : BaseModel
     internal const string IdPrefix = "disc_";
     
 
-
     public string DiscId { get; set; } = "";
 
     public int? RockUnitId { get; set; }

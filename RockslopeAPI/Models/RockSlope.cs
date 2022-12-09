@@ -49,7 +49,7 @@ public class RockSlope : BaseModel
     public int Length { get; set; }
 
 
-    public int Vegetation { get; set; }
+    public string Vegetation { get; set; }
 
 
     public int BenchDetails { get; set; }
