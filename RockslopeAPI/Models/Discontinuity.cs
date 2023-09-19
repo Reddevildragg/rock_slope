@@ -30,6 +30,8 @@ public class Discontinuity : BaseModel
     public string SeePage { get; set; }= "";
     public string AdditionalNotes { get; set; }= "";
     public string StructureReference { get; set; }= "";
+    public int Dip { get; set; } = 0;
+    public int DipDirection { get; set; } = 0;
     
     public override void SetId(int index)
     {

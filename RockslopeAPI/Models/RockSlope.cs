@@ -52,22 +52,22 @@ public class RockSlope : BaseModel
     public string Vegetation { get; set; }
 
 
-    public int BenchDetails { get; set; }
+    public string BenchDetails { get; set; }
 
 
-    public int RoughnessProfile { get; set; }
+    public string RoughnessProfile { get; set; }
 
 
-    public int ToeDetails { get; set; }
+    public string ToeDetails { get; set; }
 
 
-    public int InfrastructureToe { get; set; }
+    public string InfrastructureToe { get; set; }
 
 
     public int InfrastructureCrest { get; set; }
 
 
-    public int UpperFace { get; set; }
+    public string UpperFace { get; set; }
     
     public override void SetId(int index)
     {
